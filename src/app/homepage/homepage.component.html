@@ -1,0 +1,21 @@
+<div class="card mt-4" *ngIf="user.isAdmin">
+    <span class="card-header">
+        <div class="text-center">
+            <span class="card-body d-flex">
+                  <b>TITOLO TIPO DOCUMENTO</b>
+            </span>
+        </div>
+    </span>
+    <div class="card-body">
+        <h6>Users from secure api end point</h6>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    </div>
+        <span class="card-header">
+        <div class="text-center">
+            <span class="card-body d-flex">
+                  <b>GESTIONE CAMPI </b>
+            </span>
+        </div>
+    </span>
+</div>
+

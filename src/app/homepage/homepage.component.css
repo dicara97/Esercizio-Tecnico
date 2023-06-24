@@ -1,0 +1,9 @@
+.card-header {
+    background-color: #080530;
+    color: white;
+    height: 80px;
+}
+
+.card-body {
+    padding: 1rem;
+}
