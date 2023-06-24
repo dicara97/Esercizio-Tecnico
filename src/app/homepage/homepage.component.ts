@@ -16,7 +16,7 @@ export class HomepageComponent implements OnInit {
   constructor(private userService: UserService, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-      this.loading = true;
+      this.loading = false;
       this.authenticationService.user.subscribe(res => this.user = res);
 
   }
