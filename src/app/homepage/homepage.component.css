@@ -9,11 +9,14 @@
 }
 
 .button {
-    border: 1px solid orange;
-    width: 40px;
-    border-radius: 5px;
-    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 2%;
 }
+.alignContent {
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align:center;
+}
+

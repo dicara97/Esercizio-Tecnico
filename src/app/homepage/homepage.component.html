@@ -11,10 +11,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;">
-               <div class="form-group">
+               <div class="form-group alignContent">
                  TITOLO
                </div>    
-               <div class="form-group" style="margin-right: 4%;">
+               <div class="form-group alignContent" style="margin-right: 4%;">
                  AZIONE
                </div>
            <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
@@ -23,21 +23,20 @@
      display: flex;
      justify-content: space-between;
      align-items: center;">
-            <div class="form-group" style="width: 40%;">
+            <div class="form-group alignContent" style="width: 40%;">
               <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
             </div>    
-            <div class="form-group button">
-                <span class="material-icons">
-                    done_outline
+            <div class="form-group button alignContent" >
+                <span class="material-symbols-outlined" style="font-size: 50px; color: #e6881e;">
+                    check_box
+                    </span>
+                <span class="material-symbols-outlined" style="font-size: 50px; color: #e6881e;">
+                        disabled_by_default
                     </span>
             </div>
         <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
     </div>  
     </form>
-    <div class="card-body">
-        <h6>Users from secure api end point</h6>
-        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-    </div>
         <span class="card-header">
         <div class="text-center">
             <span class="card-body d-flex">
