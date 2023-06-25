@@ -9,11 +9,120 @@
 }
 
 .button {
-    border: 1px solid orange;
-    width: 40px;
-    border-radius: 5px;
-    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 2%;
 }
+.alignContent {
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align:center;
+}
+
+.alignContentStart {
+    margin-top:auto;
+    margin-bottom:auto;
+}
+
+.addNewOptionalItemButton {
+    display: flex;
+    height: 50px;
+    align-items: center;
+    background-color: #ed7a2c;
+    width: 120px;
+    border: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.resetFormButton {
+    margin-left: 3%;
+    display: flex;
+    height: 50px;
+    align-items: center;
+    background-color: #fff;
+    color: #ed7a2c;
+    width: 120px;
+    border-color: #ed7a2c;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.iconPlus {
+    font-weight: 700;
+    padding-bottom: 3px;
+}
+
+.btn:focus:not(.resetFormButton),.btn:active:not(.resetFormButton) {
+    background-color: #ed7a2c !important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px black;
+ }
+ 
+ .btn:focus:not(.addNewOptionalItemButton),.btn:active:not(.addNewOptionalItemButton) {
+    background-color: #fff !important;
+    color: #ed7a2c;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #ed7a2c;
+ }
+
+ select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+  }
+ 
+
+.material-symbols-outlined.exceptionIcon {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 500,
+  'GRAD' 200,
+  'opsz' 36
+}
+
+
+/* .material-symbols-outlined.iconCheckBox {
+
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 100,
+      'GRAD' -25,
+      'opsz' 48
+}
+
+
+.material-symbols-outlined.check {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 500,
+  'GRAD' 200,
+  'opsz' 48
+} */
+
+
+.material-symbols-outlined.box {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 100,
+  'GRAD' -25,
+  'opsz' 48
+}
+
+
+.material-symbols-outlined.bin {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 700,
+  'GRAD' 200,
+  'opsz' 48
+}
+
+/* .material-symbols-outlined.close {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 700,
+    'GRAD' -25,
+    'opsz' 48
+} */
+  
