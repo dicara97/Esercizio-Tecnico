@@ -8,7 +8,7 @@ import { HomepageRoutingModule } from './homepage-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    HomepageRoutingModule
+    HomepageRoutingModule,
   ]
 })
 export class HomepageModule { }

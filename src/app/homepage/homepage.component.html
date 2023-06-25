@@ -1,48 +1,261 @@
 <div class="card mt-4" *ngIf="user.isAdmin">
-    <span class="card-header">
-        <div class="text-center">
-            <span class="card-body d-flex">
-                  <b>TITOLO TIPO DOCUMENTO</b>
-            </span>
-        </div>
-    </span>
-    <form>
-        <div class="card-body" style="border: 1px solid;
+  <span class="card-header">
+    <div class="text-center">
+      <span class="card-body d-flex">
+        <b>TITOLO TIPO DOCUMENTO</b>
+      </span>
+    </div>
+  </span>
+  <form [formGroup]="documentForm" ngNativeValidate>
+    <div class="card-body" style="border: 1px solid;
         display: flex;
         justify-content: space-between;
-        align-items: center;">
-               <div class="form-group alignContent">
-                 TITOLO
-               </div>    
-               <div class="form-group alignContent" style="margin-right: 4%;">
-                 AZIONE
-               </div>
-           <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-       </div>    
-     <div class="card-body" style="border: 1px solid;
+        align-items: center; border-bottom: 0; font-weight: 700;">                                         
+      <div class="form-group alignContent">
+        TITOLO
+      </div>
+      <div class="form-group alignContent" style="margin-right: 4%;">
+        AZIONI
+      </div>
+      <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    </div>
+    <div class="card-body" style="border: 1px solid;
      display: flex;
      justify-content: space-between;
      align-items: center;">
-            <div class="form-group alignContent" style="width: 40%;">
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-            </div>    
-            <div class="form-group button alignContent" >
-                <span class="material-symbols-outlined" style="font-size: 50px; color: #e6881e;">
-                    check_box
-                    </span>
-                <span class="material-symbols-outlined" style="font-size: 50px; color: #e6881e;">
-                        disabled_by_default
-                    </span>
-            </div>
-        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-    </div>  
-    </form>
-        <span class="card-header">
-        <div class="text-center">
-            <span class="card-body d-flex">
-                  <b>GESTIONE CAMPI </b>
-            </span>
+      <div *ngIf="!documentSubmitted.title" class="form-group alignContent" style="width: 30%;">
+        <input formControlName="title" class="form-control needs-validation" id="exampleFormControlInput1" required
+          placeholder="Inserisci il nome del documento">
+      </div>     
+      <div *ngIf="documentSubmitted.title" class="form-group alignContent" style="width: 30%; display: flex;">
+          <b>{{ documentSubmitted.title }}</b>
+      </div>
+      <div class="form-group button alignContent">
+        <div style="display: flex;
+        align-items: center;
+        margin-right: 20%;
+        margin-left: -15%;">
+              <button  (click)="addOptionalValueIntoDocumentForm('title')" class="btn btn-primary" type="submit"  style="    width: 40px;
+              height: 40px;
+              display: flex;
+              align-items: center;
+              justify-content: center;     background-color: #fff;
+                  border-color: #e6881e; "><span  class="material-symbols-outlined"
+                style="color: #e6881e;
+                cursor: pointer;
+                font-size: 35px;
+                font-weight: 700;">
+                done
+              </span></button>
         </div>
-    </span>
+        <div style="     display: flex;
+              align-items: center;">
+              <button [disabled]="documentForm.pristine" (click)="resetOptionalValue('title')" class="btn btn-primary" style="    width: 40px;
+              height: 40px;
+              display: flex;
+              align-items: center;
+              justify-content: center;     background-color: #fff;
+                  border-color: #e6881e;"><span  class="material-symbols-outlined"
+                style="color: #e6881e;
+                cursor: pointer;
+                font-size: 30px;
+                font-weight: 700;">
+                close
+              </span></button>
+        </div>
+      </div>
+      <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    </div>
+  </form>
+  <span class="card-header">
+    <div class="text-center">
+      <span class="card-body d-flex">
+        <b>GESTIONE CAMPI </b>
+      </span>
+    </div>
+  </span>
+  <div class="card-body" style="border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; border-bottom: 0; font-weight: 700;">
+    <div class="form-group alignContent">
+      NOME
+    </div>
+    <div class="form-group alignContent" style="margin-left: 13%;
+           margin-right: 10%;">
+      TIPOLOGIA
+    </div>
+    <div class="form-group alignContent">
+      OBBLIGATORIO(*)
+    </div>
+    <div class="form-group alignContent" style="margin-right: 4%;">
+      AZIONI
+    </div>
+    <!-- <div *ngIf="loading" class="spinner-border spinner-border-sm"></div> -->
+  </div>
+  <form [formGroup]="optionalFieldsForm" ngNativeValidate>
+    <div formArrayName="optionalValues">
+      <div *ngFor="let email of optionalValues.controls; let i = index" [formGroupName]="i">
+        <div class="card-body" style="border: 1px solid;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; border-bottom: 0;">
+          <div *ngIf="!documentSubmitted.optionalValues[i]" class="form-group alignContent" style="width: 30%;">
+            <input formControlName="name" class="form-control needs-validation" placeholder="inserisci il nome del campo" required >
+          </div>      
+           <div *ngIf="documentSubmitted.optionalValues[i]" class="form-group alignContentStart" style="width: 30%; margin-left: 1%;">
+            <b>{{ documentSubmitted.optionalValues[i].name}}</b>
+          </div>       
+          <div *ngIf="!documentSubmitted.optionalValues[i]" class="form-group alignContent" style="width: 30%;
+                  margin-left: -13%;
+                  display: flex;
+                  justify-content: flex-end;
+                  align-items: center;">
+            <div style="position: fixed;
+                    width: 40px;
+                    height: 38px;
+                    display: flex;
+                    align-items: center;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    background-color: #080530;" data-bs-toggle="dropdown">
+              <span class="material-symbols-outlined" style="font-size: 40px;
+                    color: white; ">
+                expand_more
+              </span>
+            </div>
+            <select id="names" formControlName="type" class="form-control" id="exampleFormControlSelect1" required>
+              <option value="" hidden>Seleziona la tipologia</option>
+              <option value="string">Stringa</option>
+              <option value="number">Numerica</option>
+              <option value="date">Data</option>
+            </select>
+          </div>
+          <div *ngIf="documentSubmitted.optionalValues[i]" class="form-group alignContent" style="width: 30%;
+                margin-left: -3%;
+                display: flex;
+                align-items: center;">  
+              <b>
+                <ng-container *ngIf="documentSubmitted.optionalValues[i].type === 'number'">
+                  Numero
+                </ng-container>  
+                <ng-container *ngIf="documentSubmitted.optionalValues[i].type === 'string'">
+                  Stringa
+                </ng-container>     
+               <ng-container *ngIf="documentSubmitted.optionalValues[i].type === 'date'">
+                  Data
+                </ng-container>
+              </b>
+        </div>
+          <div *ngIf="!documentSubmitted.optionalValues[i]" class="form-group form-check" style="margin-left: -6%;
+                  padding-left: 1px;">
+            <input formControlName="isRequired" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          </div>    
+          <div *ngIf="documentSubmitted.optionalValues[i]" class="form-group form-check" style="    margin-right: 15%;">
+            <ng-container>
+              <b *ngIf="documentSubmitted.optionalValues[i].isRequired">(<span style="color: red;">*</span>)</b>
+              <b *ngIf="!documentSubmitted.optionalValues[i].isRequired">No</b>
+            </ng-container>
+            
+          </div>
+          <div class="form-group button alignContent" *ngIf="!documentSubmitted.optionalValues[i]">
+            <div style="display: flex;
+            align-items: center; margin-left: 22%;">
+                  <button [disabled]="optionalFieldsForm.invalid" (click)="(addOptionalValueIntoDocumentForm('optional', i))" class="btn btn-primary" style="    width: 40px;
+                  height: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;     background-color: #fff;
+                      border-color: #e6881e;"><span  class="material-symbols-outlined"
+                    style="color: #e6881e;
+                    cursor: pointer;
+                    font-size: 35px;
+                    font-weight: 700;">
+                    done
+                  </span></button>
+            </div>
+            <div style="     display: flex;
+                  align-items: center; margin-left: 5%;">
+                  <button [disabled]="optionalFieldsForm.pristine" (click)="resetOptionalValue('optional', i)" class="btn btn-primary" style="    width: 40px;
+                  height: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;     background-color: #fff;
+                      border-color: #e6881e;"><span  class="material-symbols-outlined"
+                    style="color: #e6881e;
+                    cursor: pointer;
+                    font-size: 30px;
+                    font-weight: 700;">
+                    close
+                  </span></button>
+            </div>       
+            <div style="     display: flex;
+                  align-items: center; margin-left: 5%;">
+                  <button  (click)="removeOptionalValue(i)" class="btn btn-primary" style="    width: 40px;
+                  height: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;     background-color: #fff;
+                      border-color: #e6881e;"><span  class="material-symbols-outlined"
+                    style="color: #e6881e;
+                    cursor: pointer;
+                    font-size: 30px;
+                    font-weight: 700;">
+                    delete
+                  </span></button>
+                  {{documentSubmitted.optionalValues[i]}}
+            </div>
+          </div>
+          <div class="form-group button alignContent" style="     margin-left: 2%;
+          margin-right: 4.5%;" *ngIf="documentSubmitted.optionalValues[i]">
+            <div style="     display: flex;
+                  align-items: center">
+                  <button (click)="removeOptionalValue(i)" class="btn btn-primary" style="    width: 40px;
+                  height: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;     background-color: #fff;
+                      border-color: #e6881e;"><span  class="material-symbols-outlined"
+                    style="color: #e6881e;
+                    cursor: pointer;
+                    font-size: 30px;
+                    font-weight: 700;">
+                    delete
+                  </span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="card-body" style="border: 1px solid;
+   display: flex;
+   justify-content: space-between;
+   align-items: center; border-bottom: 0; border-top: 0;">
+    <button [disabled]="!canAdd" (click)="addOptionaValueFormGroup()" class="btn btn-primary addNewOptionalItemButton" type="submit"><span
+        class="material-symbols-outlined iconPlus">
+        add
+      </span>AGGIUNGI</button>
+  </div>
+  <div class="card-body" style="border: 1px solid;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center">
+    <button type="submit" (click)="onSubmit()" class="btn btn-primary  addNewOptionalItemButton" type="submit"><span
+        style="margin-right: 10%; font-weight: 500;" class="material-symbols-outlined exceptionIcon">
+        save
+      </span>SALVA</button>
+    <button class="btn btn-primary resetFormButton" type="submit"><span class="material-symbols-outlined iconPlus">
+        close 
+      </span>ANNULLA</button>
+  </div>
 </div>
+
+{{documentSubmitted.optionalValues | json}}
+
+
+              
+
+
+
 
