@@ -1,0 +1,19 @@
+.card-header {
+    background-color: #080530;
+    color: white;
+    height: 80px;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.button {
+    border: 1px solid orange;
+    width: 40px;
+    border-radius: 5px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

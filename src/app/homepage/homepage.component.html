@@ -1,0 +1,49 @@
+<div class="card mt-4" *ngIf="user.isAdmin">
+    <span class="card-header">
+        <div class="text-center">
+            <span class="card-body d-flex">
+                  <b>TITOLO TIPO DOCUMENTO</b>
+            </span>
+        </div>
+    </span>
+    <form>
+        <div class="card-body" style="border: 1px solid;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;">
+               <div class="form-group">
+                 TITOLO
+               </div>    
+               <div class="form-group" style="margin-right: 4%;">
+                 AZIONE
+               </div>
+           <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+       </div>    
+     <div class="card-body" style="border: 1px solid;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;">
+            <div class="form-group" style="width: 40%;">
+              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            </div>    
+            <div class="form-group button">
+                <span class="material-icons">
+                    done_outline
+                    </span>
+            </div>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    </div>  
+    </form>
+    <div class="card-body">
+        <h6>Users from secure api end point</h6>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    </div>
+        <span class="card-header">
+        <div class="text-center">
+            <span class="card-body d-flex">
+                  <b>GESTIONE CAMPI </b>
+            </span>
+        </div>
+    </span>
+</div>
+
