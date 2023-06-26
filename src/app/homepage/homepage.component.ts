@@ -165,6 +165,13 @@ to empty values. This object is used to store the values submitted by the user i
         ? (this.canAdd = false)
         : (this.canAdd = true);
 
+    if(this.optionalFieldsForm.value.optionalValues[
+      this.optionalFieldsForm.value.optionalValues.length - 1
+    ].name)
+    this.canAdd = true
+    console.log(i)
+    if(i === 0)
+    this.canAdd = false
     this.documentSubmitted.optionalValues.splice(i, 1);
   }
 
@@ -231,6 +238,12 @@ to empty values. This object is used to store the values submitted by the user i
     else return true;
   }
 
+
+
+/**
+ * The onSubmit function adds a document value and then adds a document to the document service,
+ * logging the data and setting a success flag if successful.
+ */
   onSubmit() {
     this.documentService.addValue(this.documentSubmitted);
     this.documentService
