@@ -9,7 +9,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { DocumentService } from '../services/document.service';
-import { map } from 'rxjs';
 interface optionalValues {
   name: string;
   type: string;
@@ -235,17 +234,16 @@ to empty values. This object is used to store the values submitted by the user i
   onSubmit() {
     this.documentService.addValue(this.documentSubmitted);
     this.documentService
-      .addDocument(this.documentSubmitted).pipe(map((res:any) => res.json())
-      .subscribe(
-        (data: any) => console.log(data),
-        (err: string) => console.log(err),
-        () => console.log('yay')
-      ));
-      // .subscribe((res) => {
-      //   this.isSuccess = true
-      //   setTimeout(() => {
-      //     this.isSuccess = false
-      //   }, 2000);
-      // });
+      .addDocument(this.documentSubmitted).subscribe({
+        next: (data) => {
+          this.isSuccess = true
+          setTimeout(() => {
+            this.isSuccess = false
+          }, 2000);
+        },
+        error: (err) => {
+          console.log(err)
+        },
+      });
   }
 }
