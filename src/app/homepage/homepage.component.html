@@ -1,3 +1,5 @@
+<div *ngIf="isSuccess" class="alert alert-success" role="alert">
+  Documento aggiunto con successo
 <div class="card mt-4" *ngIf="user.isAdmin">
   <span class="card-header">
     <div class="text-center">
@@ -250,6 +252,8 @@
       </span>ANNULLA</button>
   </div>
 </div>
+{{optionalFieldsForm.value | json}}
+{{documentSubmitted.optionalValues | json}}
 
 
 
