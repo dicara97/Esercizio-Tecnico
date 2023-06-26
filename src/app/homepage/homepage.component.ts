@@ -236,6 +236,7 @@ to empty values. This object is used to store the values submitted by the user i
     this.documentService
       .addDocument(this.documentSubmitted).subscribe({
         next: (data) => {
+          console.log(data)
           this.isSuccess = true
           setTimeout(() => {
             this.isSuccess = false
