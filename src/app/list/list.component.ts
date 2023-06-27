@@ -161,7 +161,6 @@ export class ListComponent implements OnInit {
  * This function changes the title of a selected document in a document list.
  */
   changeTitle() {
-
     this.documentList.forEach( (res, index) => {
       if(this.selectedTitle.title === res.title)
       this.documentList[index].title = this.newTitle

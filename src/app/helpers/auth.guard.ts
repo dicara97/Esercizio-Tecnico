@@ -19,7 +19,12 @@ export class AuthGuard implements CanActivate {
       if (user.authData) {
         return true
       } 
-      console.log('ciao')
+        if(user.isAdmin) {
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/list'])
+        }
+        return true;
       this.router.navigate(['/login'], {queryParams: { returnUrl: state.url}});
       return false
   }

@@ -20,6 +20,8 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.authenticationService.user.subscribe(res => this.user = res);
+    if(!this.user.isAdmin)
+    this.router.navigate(['/list'])
   }
 
   logout() {

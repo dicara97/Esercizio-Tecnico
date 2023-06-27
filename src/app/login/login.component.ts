@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ciao')
       this.loginForm = this.formBuilder.group({
           username: ['', Validators.required],
           password: ['', Validators.required]
@@ -46,7 +45,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
       this.submitted = true;
 
-      // stop here if form is invalid
       if (this.loginForm.invalid) {
           return;
       }
