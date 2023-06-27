@@ -190,6 +190,12 @@ export class ListComponent implements OnInit {
 
   }
 
+/**
+ * This function deletes a document from a list, updates the list in local storage, and sets a flag to
+ * indicate that the document was deleted.
+ * @param {Document} document - The parameter `document` is of type `Document` and represents the
+ * document that needs to be deleted from the `documentList`.
+ */
   deleteDocument(document: Document){
     this.documentList.forEach((res, index) => {
       if(res == document ){
@@ -206,7 +212,6 @@ export class ListComponent implements OnInit {
     if(documentStorageList){
       localStorage.removeItem('documentList')
     }
-    console.log(documentStorageList)
     localStorage.setItem('documentList', JSON.stringify(this.documentList)) 
 
   }

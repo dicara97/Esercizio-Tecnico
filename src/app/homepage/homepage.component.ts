@@ -171,12 +171,6 @@ to empty values. This object is used to store the values submitted by the user i
       values.reset();
     }
     this.documentSubmitted.optionalValues.splice(i, 1);
-    console.log(this.documentSubmitted.optionalValues.length);
-    console.log(
-      i,
-      this.optionalFieldsForm.value.optionalValues,
-      this.optionalFieldsForm.value.optionalValues.length
-    );
     if (this.optionalFieldsForm.value.optionalValues.length === 1)
       this.canAdd = false;
     if (
@@ -344,6 +338,15 @@ of the modal window to be displayed. */
       );
   }
 
+/**
+ * The function returns a string indicating the reason for dismissing a modal.
+ * @param {any} reason - The reason for dismissing a modal, which can be one of the values from the
+ * ModalDismissReasons enum.
+ * @returns The `getDismissReason` function returns a string that describes the reason why a modal was
+ * dismissed. If the reason is `ModalDismissReasons.ESC`, the string "by pressing ESC" is returned. If
+ * the reason is `ModalDismissReasons.BACKDROP_CLICK`, the string "by clicking on a backdrop" is
+ * returned. Otherwise, the string "with: " followed by the reason is
+ */
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
