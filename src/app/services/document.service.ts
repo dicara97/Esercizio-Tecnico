@@ -31,4 +31,11 @@ export class DocumentService {
       return data
     }))
   }
+
+  patchDocument(title: string){
+    return this.http.patch<any>(`${environment.api}/document/${title}`, {document})
+    .pipe(map((data: Document )=> {
+      return data
+    }))
+  }
 }

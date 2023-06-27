@@ -1,21 +1,92 @@
-
+<div *ngIf="isSuccess" class="alert alert-success" role="alert">
+  Documento modificato con successo!
+</div>
+<div *ngIf="isDeleted" class="alert alert-success" role="alert">
+  Documento eliminato con successo!
+</div>
+<!--table start-->
 <div style="margin-top: 5%;">
     <h4>Lista Documenti</h4>
-
     <table class="table table-striped table-dark">
-        <thead style="background-color: #080530;">
+        <thead style="background-color: #080530 !important;">
             <tr>
               <th scope="col" style="border-right: 1px solid gray;">Titolo</th>
               <th scope="col">Campi</th>
             </tr>
           </thead>
         <ng-container>
-            <tr *ngFor="let document of documentList">
+            <tr *ngFor="let document of documentList; let index = index">
+              <!--letf part of the table-->
                 <td colspan="document.optionalValues.length + 1" style="width: 20%; border-right: 1px solid gray; border-bottom: 1px solid gray; border-bottom: 1px solid gray;
                 background-color: #f5f5f5;
-                color: black;">
-                    Documento: <b>{{ document.title }}</b>
+                color: black;">                                     
+                    <ng-container *ngIf="selectedTitle.title != document.title">
+                        Documento: <b>{{ document.title }}</b> 
+                    </ng-container>    
+                    <ng-container *ngIf="selectedTitle.title === document.title">
+                        <input [(ngModel)]="newTitle" class="form-control">
+                    </ng-container>
+
+                    <hr>
+                    <div *ngIf="user.isAdmin" style="display: flex;
+                    align-items: center;">
+                          <button *ngIf="!isEditingTitle" (click)="editDocument(document.title)" class="btn btn-primary" type="submit"  style="    width: 40px;
+                          height: 40px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;     background-color: #fff;
+                              border-color: #e6881e; "><span  class="material-symbols-outlined"
+                            style="color: #e6881e;
+                            cursor: pointer;
+                            font-size: 35px;
+                            font-weight: 700;">
+                            edit
+                          </span></button>       
+                         <button *ngIf="isEditingTitle  && selectedTitle.title != document.title" (click)="editDocument(document.title)" class="btn btn-primary" type="submit"  style="    width: 40px;
+                          height: 40px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;     background-color: #fff;
+                              border-color: #e6881e; "><span  class="material-symbols-outlined"
+                            style="color: #e6881e;
+                            cursor: pointer;
+                            font-size: 35px;
+                            font-weight: 700;">
+                            edit
+                          </span></button>
+                          <div style="display: flex;
+                          align-items: center;">
+                                <button *ngIf="isEditingTitle && selectedTitle.title === document.title" (click)="changeTitle()" class="btn btn-primary" type="submit"  style="    width: 40px;
+                                height: 40px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;     background-color: #fff;
+                                    border-color: #e6881e; "><span  class="material-symbols-outlined"
+                                  style="color: #e6881e;
+                                  cursor: pointer;
+                                  font-size: 35px;
+                                  font-weight: 700;">
+                                  check
+                                </span></button>
+                          </div>
+                          <div style="     display: flex;
+                          align-items: center; margin-left: 10%;">
+                          <button (click)="deleteDocument(document)" class="btn btn-primary" style="    width: 40px;
+                          height: 40px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;     background-color: #fff;
+                              border-color: #e6881e;"><span  class="material-symbols-outlined"
+                            style="color: #e6881e;
+                            cursor: pointer;
+                            font-size: 30px;
+                            font-weight: 700;">
+                            delete
+                          </span></button>
+                    </div>
+                    </div>    
                 </td>
+              <!--right part of the table-->
                 <td style="border-bottom: 1px solid gray; border-bottom: 1px solid gray;
                 background-color: #f5f5f5;
                 color: black;">
@@ -24,42 +95,52 @@
                         flex-direction: row;
                         align-items: flex-start; justify-content: space-around;" *ngFor="let det of document.optionalValues; let i = index">
                             <!--Display and edit name, type & requried-->
-                            <td  *ngIf="selectedDocument.optionalValues.name != det.name">{{det.name}}</td>
-                            <td *ngIf="selectedDocument.optionalValues.name === det.name &&
-                                 selectedDocument.optionalValues.isRequired === det.isRequired &&
-                                 selectedDocument.optionalValues.type === det.type">
-                                <input [ngModel]="selectedDocument.optionalValues.name" class="form-control" id="name">
+                            <td  *ngIf="selectedDocument.optionalValues.id != det.id">{{det.name}}</td>
+                            <td *ngIf="selectedDocument.optionalValues.id === det.id">
+                                <input [(ngModel)]="selectedDocument.optionalValues.name" class="form-control" id="name">
                             </td>
-                            <td *ngIf="selectedDocument.optionalValues.name != det.name
-                            ">{{det.type}}</td>
-                            <td *ngIf="selectedDocument.optionalValues.name === det.name &&
-                                selectedDocument.optionalValues.isRequired === det.isRequired &&
-                                selectedDocument.optionalValues.type === det.type">
-                                <select [ngModel]="selectedDocument.optionalValues.type" id="type" class="form-control">
+                            <td *ngIf="selectedDocument.optionalValues.id != det.id
+                            ">              <b>
+                                <ng-container
+                                  *ngIf="det.type === 'number'"
+                                >
+                                  Numero
+                                </ng-container>
+                                <ng-container
+                                  *ngIf="det.type === 'string'"
+                                >
+                                  Stringa
+                                </ng-container>
+                                <ng-container
+                                  *ngIf="det.type === 'date'"
+                                >
+                                  Data
+                                </ng-container>
+                              </b></td>
+                            <td *ngIf="selectedDocument.optionalValues.id === det.id">
+                                <select [(ngModel)]="selectedDocument.optionalValues.type" id="type" class="form-control">
                                     <option value="" hidden>Seleziona la tipologia</option>
                                     <option value="string">Stringa</option>
                                     <option value="number">Numerica</option>
                                     <option value="date">Data</option>
                                   </select>
                             </td>
-                            <td *ngIf="selectedDocument.optionalValues.name != det.name">           
+                            <td *ngIf="selectedDocument.optionalValues.id != det.id">           
                             <ng-container >
                                 <b *ngIf="det.isRequired">(<span style="color: red;">*</span>)</b>
                                 <b *ngIf="!det.isRequired">No</b>
                             </ng-container>
                             </td>  
-                            <td *ngIf="selectedDocument.optionalValues.name === det.name &&
-                                 selectedDocument.optionalValues.isRequired === det.isRequired &&
-                                 selectedDocument.optionalValues.type === det.type">
-                                 <input [ngModel]="selectedDocument.optionalValues.isRequired" class="form-check-input" type="checkbox" value="" id="isRequired">  
+                            <td *ngIf="selectedDocument.optionalValues.id === det.id">
+                                 <input [(ngModel)]="selectedDocument.optionalValues.isRequired" class="form-check-input" type="checkbox" value="" id="isRequired">  
                             </td>
                             <td>
-                            <div class="form-group button" style="display: flex;">
+                            <div class="form-group button" style="display: flex;" *ngIf="user.isAdmin">
                                 <div style="display: flex;
                                 align-items: center;
                                 margin-right: 20%;
                                 margin-left: -15%;">
-                                      <button (click)="editDocument(document.title, det)" class="btn btn-primary" type="submit"  style="    width: 40px;
+                                      <button *ngIf="!isEditing" (click)="editDocument(document.title, det)" class="btn btn-primary" type="submit"  style="    width: 40px;
                                       height: 40px;
                                       display: flex;
                                       align-items: center;
@@ -71,23 +152,43 @@
                                         font-weight: 700;">
                                         edit
                                       </span></button>
-                                </div>
-                                <div style="     display: flex;
-                                      align-items: center;">
-                                      <button class="btn btn-primary" style="    width: 40px;
+                                </div>        
+                                <div style="display: flex;
+                                align-items: center;
+                                margin-right: 20%;
+                                margin-left: -15%;">
+                                      <button *ngIf="isEditing && selectedDocument.optionalValues.id != det.id" (click)="editDocument(document.title, det)" class="btn btn-primary" type="submit"  style="    width: 40px;
                                       height: 40px;
                                       display: flex;
                                       align-items: center;
                                       justify-content: center;     background-color: #fff;
-                                          border-color: #e6881e;"><span  class="material-symbols-outlined"
+                                          border-color: #e6881e; "><span  class="material-symbols-outlined"
                                         style="color: #e6881e;
                                         cursor: pointer;
-                                        font-size: 30px;
+                                        font-size: 35px;
                                         font-weight: 700;">
-                                        delete
+                                        edit
+                                      </span></button>
+                                </div>    
+                                <div style="display: flex;
+                                align-items: center;
+                                margin-right: 20%;
+                                margin-left: -15%;">
+                                      <button *ngIf="isEditing && selectedDocument.optionalValues.id === det.id" (click)="changeValue(i,index)" class="btn btn-primary" type="submit"  style="    width: 40px;
+                                      height: 40px;
+                                      display: flex;
+                                      align-items: center;
+                                      justify-content: center;     background-color: #fff;
+                                          border-color: #e6881e; "><span  class="material-symbols-outlined"
+                                        style="color: #e6881e;
+                                        cursor: pointer;
+                                        font-size: 35px;
+                                        font-weight: 700;">
+                                        check
                                       </span></button>
                                 </div>
-                              </div></td>
+                              </div>
+                            </td>
                         </tr>
                     </div>
                 </td>

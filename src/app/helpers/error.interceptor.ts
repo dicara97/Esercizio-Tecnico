@@ -19,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.authenticationService.logout();
           }
 
-          const error = err.error.message || err.statusText;
+          const error = 'nome utente o password errati!';
           return throwError(() => new Error(error));
       }))
   }
