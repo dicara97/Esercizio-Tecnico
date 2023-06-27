@@ -9,10 +9,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { DocumentService } from '../services/document.service';
+import { Document } from '../models/document.model';
 interface optionalValues {
   name: string;
   type: string;
   isRequired: boolean;
+  id: number
 }
 
 const DEFAULT = { title: '', optionalValues: [] };
@@ -38,8 +40,8 @@ export class HomepageComponent implements OnInit {
     title: string;
     optionalValues: optionalValues[];
   };
-
   isSuccess: boolean = false
+  selectedDocument!: any
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -68,6 +70,10 @@ to empty values. This object is used to store the values submitted by the user i
  * The function creates a form using the Angular FormBuilder with a required title field and an
  * optionalValues group.
  */
+
+getRandomId() {
+  return Math.floor((Math.random()*100)+1);
+}
   createForm() {
     this.documentForm = this.formBuilder.group({
       title: [
@@ -153,6 +159,9 @@ to empty values. This object is used to store the values submitted by the user i
     } else {
       values.reset();
     }
+    this.documentSubmitted.optionalValues.splice(i, 1);
+    console.log(this.documentSubmitted.optionalValues.length)
+    console.log(i, this.optionalFieldsForm.value.optionalValues, this.optionalFieldsForm.value.optionalValues.length )
     if (this.optionalFieldsForm.value.optionalValues.length === 1)
       this.canAdd = false;
     if (
@@ -169,10 +178,9 @@ to empty values. This object is used to store the values submitted by the user i
       this.optionalFieldsForm.value.optionalValues.length - 1
     ].name)
     this.canAdd = true
-    console.log(i)
     if(i === 0)
     this.canAdd = false
-    this.documentSubmitted.optionalValues.splice(i, 1);
+ 
   }
 
 /**
@@ -222,6 +230,7 @@ to empty values. This object is used to store the values submitted by the user i
       name: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
       isRequired: new FormControl(false),
+      id: new FormControl(this.getRandomId())
     });
   }
 
@@ -245,13 +254,14 @@ to empty values. This object is used to store the values submitted by the user i
  * logging the data and setting a success flag if successful.
  */
   onSubmit() {
+    console.log(this.selectedDocument)
     this.documentService.addValue(this.documentSubmitted);
     this.documentService
       .addDocument(this.documentSubmitted).subscribe({
         next: (data) => {
-          console.log(data)
           this.documentService.addValue(data)
           this.isSuccess = true
+          this.resetOptionalValue('all')
           setTimeout(() => {
             this.isSuccess = false
           }, 2000);
@@ -260,5 +270,21 @@ to empty values. This object is used to store the values submitted by the user i
           console.log(err)
         },
       });
+  }
+
+  editValue(documentToEdit: optionalValues){
+    this.canAdd = false
+    this.isEditing = true
+    this.selectedDocument = documentToEdit
+  }
+
+  changeSelectedValue(document: any){
+    this.isEditing = false
+    this.canAdd = true
+    this.documentSubmitted.optionalValues.forEach((res, index) => {
+      if(res.id === this.selectedDocument.id) 
+      this.documentSubmitted.optionalValues[index] = document
+    })
+    this.selectedDocument = undefined
   }
 }

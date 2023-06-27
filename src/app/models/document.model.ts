@@ -4,5 +4,6 @@ export interface Document {
         name: string;
         type: string;
         isRequired: boolean
+        id: number
     }]
 }
