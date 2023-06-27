@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 import { AuthenticationService } from '../services/authentication.service';
 import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { DocumentService } from '../services/document.service';
 import { Document } from '../models/document.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 interface optionalValues {
   name: string;
   type: string;
@@ -27,8 +28,8 @@ const resetToDefault = (state: any) => Object.assign(state, DEFAULT);
 export class HomepageComponent implements OnInit {
   loading = false;
   user!: User;
-  documentForm!: FormGroup;
-  optionalFieldsForm!: FormGroup;
+  documentForm!: UntypedFormGroup;
+  optionalFieldsForm!: UntypedFormGroup;
   openStatus = false;
   openedSelect!: any;
   canAdd: boolean = false;
@@ -42,11 +43,12 @@ export class HomepageComponent implements OnInit {
   };
   isSuccess: boolean = false
   selectedDocument!: any
+  closeResult: string = '';
 
   constructor(
     private authenticationService: AuthenticationService,
-    private formBuilder: FormBuilder,
-    private documentService: DocumentService
+    private formBuilder: UntypedFormBuilder,
+    private documentService: DocumentService,
   ) {
 /* Initializing an object `documentSubmitted` with two properties `title` and `optionalValues` both set
 to empty values. This object is used to store the values submitted by the user in the form. */
@@ -106,7 +108,7 @@ getRandomId() {
   addOptionaValueFormGroup() {
     this.canAdd = false;
     this.optionalValueAdded = false;
-    const values = this.optionalFieldsForm.get('optionalValues') as FormArray;
+    const values = this.optionalFieldsForm.get('optionalValues') as UntypedFormArray;
     values.push(this.createOptionalValueGroup());
   }
 
@@ -143,7 +145,7 @@ getRandomId() {
  * that can be used to manage a group of form controls.
  */
   get optionalValues() {
-    return <FormArray>this.optionalFieldsForm.get('optionalValues');
+    return <UntypedFormArray>this.optionalFieldsForm.get('optionalValues');
   }
 
 /**
@@ -153,7 +155,7 @@ getRandomId() {
  * form array and the documentSubmitted array.
  */
   removeOptionalValue(i: number) {
-    const values = this.optionalFieldsForm.get('optionalValues') as FormArray;
+    const values = this.optionalFieldsForm.get('optionalValues') as UntypedFormArray;
     if (values.length > 1) {
       values.removeAt(i);
     } else {
@@ -225,12 +227,12 @@ getRandomId() {
  * This function creates a FormGroup with three form controls, including one optional control.
  * @returns A FormGroup object is being returned.
  */
-  createOptionalValueGroup(): FormGroup {
-    return new FormGroup({
-      name: new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required),
-      isRequired: new FormControl(false),
-      id: new FormControl(this.getRandomId())
+  createOptionalValueGroup(): UntypedFormGroup {
+    return new UntypedFormGroup({
+      name: new UntypedFormControl('', Validators.required),
+      type: new UntypedFormControl('', Validators.required),
+      isRequired: new UntypedFormControl(false),
+      id: new UntypedFormControl(this.getRandomId())
     });
   }
 
@@ -287,4 +289,6 @@ getRandomId() {
     })
     this.selectedDocument = undefined
   }
+
+  
 }
